@@ -1,0 +1,566 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package TriviaGameGUI;
+
+import TriviaDB.DBUtils;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//import javax.swing.ImageIcon;
+//import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author NaorHaguli
+ */
+public class PreLog extends javax.swing.JFrame {
+
+    /**
+     * Creates new form PreLog
+     */
+    static String playerName = "Player";
+
+    public PreLog() {
+        initComponents();
+        setLocationRelativeTo(null);
+        addListeners();
+    }
+
+    public void addListeners() {
+        this.addWindowListener(new MyWindowListener());
+    }
+
+    class MyWindowListener extends WindowAdapter {
+
+        /* All other 6 methods of the listener were already implemented in the 
+            * WindowAdapter
+         */
+        @Override
+        public void windowClosing(WindowEvent we) {
+            showExitDialog();
+        }
+    }
+
+    public void showExitDialog() {
+        int result = JOptionPane.showConfirmDialog(PreLog.this, // parent component
+                "Are you sure you want to quit?", // message
+                "Exit Dialog", // title of the dialog box
+                JOptionPane.YES_NO_OPTION,// indicates buttons ot display
+                JOptionPane.QUESTION_MESSAGE);
+        //null);//new ImageIcon("images/questionmark.png")); 
+        if (result == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+
+    }
+
+    public boolean checkedIfUserExist() throws ClassNotFoundException, SQLException {
+
+        PreparedStatement statement = null;
+        try {
+            Class.forName(DBUtils.DbDriverClass);
+            Connection connection = DriverManager.getConnection(DBUtils.DbUrl, DBUtils.DbUser, DBUtils.DbPassword);
+            statement = (PreparedStatement) connection.prepareStatement("INSERT INTO ROOT.TRIVIA_USERS(USER_NAME,PASSWORD) VALUES(?,?)");
+            statement.setString(1, jTextField1.getText());
+            statement.setString(2, jPasswordField1.toString());
+            statement.execute();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+//        Class.forName("org.apache.derby.jdbc.ClientDriver");
+//        
+//        Connection connection = DriverManager.getConnection(
+//                    DBUtils.DbUrl,
+//                    DBUtils.DbUser,
+//                    DBUtils.DbPassword);
+//         
+//         Statement statement = connection.createStatement();
+//         String queryCheck = "INSERT INTO USER_NAME FROM ROOT.TRIVIA_USERS WHERE TRIVIA_USERS.USER_NAME='" +username+ "';";
+//         Statement st = connection.createStatement();
+//         ResultSet rs = st.executeQuery(queryCheck);
+//        // PreparedStatement pstatement = connection.prepareStatement("Select user_name from root.trivia_users where user_name like ?");
+//         //pstatement.setString(1, username);
+//         
+//         //ResultSet theResults = pstatement.executeQuery();
+//         
+//         /*
+//         if(theResults.first())
+//             return true;
+//        return false;*/
+//         if(rs.absolute(1))
+//         {
+//            rs.close();
+//            connection.close();
+//            statement.close();
+//            playerName = username;
+//            return true;
+//         }
+//          rs.close();
+//          connection.close();
+//          statement.close();
+//         return false;
+        return true;
+    }
+
+    public boolean checkedLoginUserExist() throws ClassNotFoundException, SQLException {
+
+        PreparedStatement statement = null;
+        try {
+            Class.forName(DBUtils.DbDriverClass);
+            Connection connection = DriverManager.getConnection(DBUtils.DbUrl, DBUtils.DbUser, DBUtils.DbPassword);
+            String userName = jTextField1.getText();
+            statement.execute();
+            Statement st = connection.createStatement();
+            ResultSet results = st.executeQuery("Select USER_NAME from root.trivia_users Where USER_NAME='" + userName + "'");
+            for (int i = 0; results.next(); i++) {
+                if (userName.equals(results.next())) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        DynamicPanel = new javax.swing.JPanel();
+        EntranceScreen = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        CreateNewPalyer = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        LoginScreen = new javax.swing.JPanel();
+        jPasswordField2 = new javax.swing.JPasswordField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        PrepareToPlay = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton7 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Trivia Game!");
+        setAlwaysOnTop(true);
+        setLocationByPlatform(true);
+        setMinimumSize(new java.awt.Dimension(900, 550));
+        setResizable(false);
+        getContentPane().setLayout(null);
+
+        DynamicPanel.setLayout(new java.awt.CardLayout());
+
+        EntranceScreen.setLayout(null);
+
+        jButton1.setBackground(null);
+        jButton1.setFont(new java.awt.Font("HelveticaNeue LT 65 Medium", 1, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/existingplayerbutton.png"))); // NOI18N
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        EntranceScreen.add(jButton1);
+        jButton1.setBounds(530, 280, 170, 60);
+
+        jButton2.setBackground(null);
+        jButton2.setFont(new java.awt.Font("HelveticaNeue LT 65 Medium", 1, 18)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newplayerbutton.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        EntranceScreen.add(jButton2);
+        jButton2.setBounds(220, 280, 170, 60);
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon.jpg"))); // NOI18N
+        EntranceScreen.add(jLabel9);
+        jLabel9.setBounds(0, 0, 900, 550);
+
+        DynamicPanel.add(EntranceScreen, "card2");
+
+        CreateNewPalyer.setLayout(null);
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setText("Password:");
+        CreateNewPalyer.add(jLabel3);
+        jLabel3.setBounds(240, 250, 120, 40);
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel4.setText("User Name:");
+        CreateNewPalyer.add(jLabel4);
+        jLabel4.setBounds(230, 200, 140, 40);
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+        CreateNewPalyer.add(jPasswordField1);
+        jPasswordField1.setBounds(370, 260, 320, 26);
+
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField1FocusGained(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        CreateNewPalyer.add(jTextField1);
+        jTextField1.setBounds(370, 210, 320, 26);
+
+        jButton3.setBackground(new java.awt.Color(204, 0, 0));
+        jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/CancelButton.png"))); // NOI18N
+        jButton3.setText("Cancel");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, java.awt.Color.red, java.awt.Color.red, java.awt.Color.red));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        CreateNewPalyer.add(jButton3);
+        jButton3.setBounds(220, 410, 140, 60);
+
+        jButton4.setBackground(new java.awt.Color(51, 204, 0));
+        jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/createButton.png"))); // NOI18N
+        jButton4.setText("Create");
+        jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        CreateNewPalyer.add(jButton4);
+        jButton4.setBounds(540, 410, 140, 60);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/create_new_player.png"))); // NOI18N
+        CreateNewPalyer.add(jLabel1);
+        jLabel1.setBounds(0, 0, 900, 550);
+
+        DynamicPanel.add(CreateNewPalyer, "card3");
+
+        LoginScreen.setLayout(null);
+        LoginScreen.add(jPasswordField2);
+        jPasswordField2.setBounds(370, 260, 320, 26);
+
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+        });
+        LoginScreen.add(jTextField2);
+        jTextField2.setBounds(370, 210, 320, 26);
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel6.setText("User Name:");
+        LoginScreen.add(jLabel6);
+        jLabel6.setBounds(230, 200, 140, 40);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel7.setText("Password:");
+        LoginScreen.add(jLabel7);
+        jLabel7.setBounds(240, 250, 120, 40);
+
+        jButton5.setBackground(new java.awt.Color(204, 0, 0));
+        jButton5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/CancelButton.png"))); // NOI18N
+        jButton5.setText("Cancel");
+        jButton5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, java.awt.Color.red, java.awt.Color.red, java.awt.Color.red));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        LoginScreen.add(jButton5);
+        jButton5.setBounds(240, 410, 140, 60);
+
+        jButton6.setBackground(new java.awt.Color(51, 204, 0));
+        jButton6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LoginButton.png"))); // NOI18N
+        jButton6.setText("Login");
+        jButton6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        LoginScreen.add(jButton6);
+        jButton6.setBounds(560, 410, 140, 60);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_bacckground_screen.jpg"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        LoginScreen.add(jLabel2);
+        jLabel2.setBounds(0, 0, 900, 550);
+
+        DynamicPanel.add(LoginScreen, "card4");
+
+        PrepareToPlay.setLayout(null);
+
+        jLabel8.setFont(new java.awt.Font("Sakkal Majalla", 1, 40)); // NOI18N
+        jLabel8.setText("Hello " + playerName + "! Please select amount of questions to play! (Max 15!)");
+        PrepareToPlay.add(jLabel8);
+        jLabel8.setBounds(20, 110, 870, 90);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" }));
+        PrepareToPlay.add(jComboBox1);
+        jComboBox1.setBounds(380, 240, 130, 26);
+
+        jButton7.setBackground(new java.awt.Color(0, 51, 204));
+        jButton7.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lets_gobutton.png"))); // NOI18N
+        jButton7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green, java.awt.Color.green));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        PrepareToPlay.add(jButton7);
+        jButton7.setBounds(310, 330, 310, 70);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/prepare_to_play_screen.png"))); // NOI18N
+        PrepareToPlay.add(jLabel5);
+        jLabel5.setBounds(1, 0, 900, 550);
+
+        DynamicPanel.add(PrepareToPlay, "card5");
+
+        getContentPane().add(DynamicPanel);
+        DynamicPanel.setBounds(0, 0, 900, 550);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DynamicPanel.removeAll();
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();
+
+        DynamicPanel.add(CreateNewPalyer);
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DynamicPanel.removeAll();
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();
+
+        DynamicPanel.add(LoginScreen);
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1FocusGained
+
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2FocusGained
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String username = jTextField1.getText();
+        try {
+            if (checkedLoginUserExist()) {
+                JOptionPane.showMessageDialog(this, "Login was successful!");
+                DynamicPanel.removeAll();
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+
+                DynamicPanel.add(PrepareToPlay);
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong insert..");
+                DynamicPanel.removeAll();
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+
+                DynamicPanel.add(LoginScreen);
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PreLog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PreLog.class.getName()).log(Level.SEVERE, null, ex);
+            DynamicPanel.removeAll();
+            DynamicPanel.repaint();
+            DynamicPanel.revalidate();
+
+            DynamicPanel.add(PrepareToPlay);
+            DynamicPanel.repaint();
+            DynamicPanel.revalidate();         // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DynamicPanel.removeAll();
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();
+
+        DynamicPanel.add(EntranceScreen);
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        DynamicPanel.removeAll();
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();
+
+        DynamicPanel.add(EntranceScreen);
+        DynamicPanel.repaint();
+        DynamicPanel.revalidate();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //כאן להכניס בדיקת קלט לDB
+        String username = jTextField1.getText();
+        try {
+            if (checkedIfUserExist()) {
+                JOptionPane.showMessageDialog(this, "Create a new player was successful!");
+                DBUtils.createNewUser(jTextField1.getText(), jPasswordField1.getPassword().toString());
+                DynamicPanel.removeAll();
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+
+                DynamicPanel.add(PrepareToPlay);
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+            } else {
+                JOptionPane.showMessageDialog(this, "this user is already exist..");
+                DynamicPanel.removeAll();
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+
+                DynamicPanel.add(CreateNewPalyer);
+                DynamicPanel.repaint();
+                DynamicPanel.revalidate();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PreLog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PreLog.class.getName()).log(Level.SEVERE, null, ex);
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int ans = Integer.valueOf(jComboBox1.getSelectedIndex());
+        GameScreen mainScreen = new GameScreen(ans + 1);
+
+        dispose();
+        setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PreLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PreLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PreLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PreLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new PreLog().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CreateNewPalyer;
+    private javax.swing.JPanel DynamicPanel;
+    private javax.swing.JPanel EntranceScreen;
+    private javax.swing.JPanel LoginScreen;
+    private javax.swing.JPanel PrepareToPlay;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    // End of variables declaration//GEN-END:variables
+}
